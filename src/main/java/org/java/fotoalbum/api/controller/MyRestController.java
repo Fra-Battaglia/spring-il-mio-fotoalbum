@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.fotoalbum.pojo.Category;
+import org.java.fotoalbum.pojo.Message;
 import org.java.fotoalbum.pojo.Photo;
 import org.java.fotoalbum.service.CategoryService;
+import org.java.fotoalbum.service.MessageService;
 import org.java.fotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +32,9 @@ public class MyRestController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	@GetMapping("/hello")
 	public ResponseEntity<String> sayHello() {
@@ -53,6 +60,14 @@ public class MyRestController {
 		
 		Optional<Photo> optPhoto = photoService.findById(id);
 		return new ResponseEntity<>(optPhoto, HttpStatus.OK);
+	}
+	
+	@PostMapping("/photo/message")
+	public ResponseEntity<Message> SendMessage(@RequestBody(required = true) Message message){
+		
+		message = messageService.save(message);
+		
+		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 	
 	@GetMapping("/categories")

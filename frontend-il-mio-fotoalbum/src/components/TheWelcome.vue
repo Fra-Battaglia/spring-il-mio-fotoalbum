@@ -3,6 +3,7 @@
 
 	import axios from 'axios';
 	import HelloWorld from './HelloWorld.vue';
+	import SendMessage from './SendMessage.vue'
 	export default {
 		data() {
 			return {
@@ -12,7 +13,8 @@
 		},
 
 		components: {
-			HelloWorld
+			HelloWorld,
+			SendMessage
 		},
 
 		methods: {
@@ -64,6 +66,8 @@
 			</div>
 		</div>
 	</div>
+
+	<SendMessage />
 	
 </template>
 
@@ -87,7 +91,7 @@
 		}
 
 		button {
-			background-color: #ffffff;
+			background-color: #FFFFFF;
 			font-size: 1em;
 			border-radius: 10px;
 			padding: 0.5em 1em;
@@ -100,11 +104,11 @@
 		border-radius: 10px;
 		padding: 0.5em 1em;
 		
-		border: 1px solid #ffffff;
+		border: 1px solid var(--color-text);
 
 		input {
 			font-size: 2em;
-			color: #ffffff;
+			color: #FFFFFF;
 			background-color: transparent;
 			border: 0;
 		}
