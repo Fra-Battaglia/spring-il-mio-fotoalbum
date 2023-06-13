@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,10 +36,15 @@ public class MyRestController {
 	}
 	
 	@GetMapping("/photo")
-	public ResponseEntity<List<Photo>> getPhotos() {
+	public ResponseEntity<List<Photo>> getPhotos(@RequestParam(required = false) String title) {
 		
-		List<Photo> photos = photoService.findAll();
-		return new ResponseEntity<>(photos, HttpStatus.OK);
+		if(title == null || title == "") {
+			List<Photo> photos = photoService.findAll();
+			return new ResponseEntity<>(photos, HttpStatus.OK);
+		} else {			
+			List<Photo> photos = photoService.findByTitle(title);
+			return new ResponseEntity<>(photos, HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping("/photo/{id}")
@@ -63,4 +69,6 @@ public class MyRestController {
 		Optional<Category> optCategory = categoryService.findById(id);
 		return new ResponseEntity<>(optCategory, HttpStatus.OK);
 	}
+	
+	
 }
