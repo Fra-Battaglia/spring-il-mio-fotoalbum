@@ -1,4 +1,4 @@
-package org.java.pizzeria;
+package org.java.fotoalbum;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

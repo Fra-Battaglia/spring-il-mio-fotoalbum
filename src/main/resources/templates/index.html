@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>		
+		<meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+		<title>Photo Album</title>
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+	</head>
+	
+	<body>
+		<h1>Photo Album</h1>
+		<p>look!</p>
+		
+		<a th:href="@{/photo/new}"><button>add photo</button></a>
+		
+		<div
+			th:each="photo : ${photos}"
+			th:object="${photo}"
+		>	
+			<a th:href="@{/photo/{id} (id=*{id})}">			
+				<img
+					th:src="*{url}" 
+					th:alt="*{title}" 
+					class="show-img"
+				/>
+			</a>
+			<ul>
+				<li 
+					th:each="category : *{categories}"
+					th:object="${category}"
+				>
+					[[ *{name} ]]
+				</li>
+			</ul>
+			<a th:href="@{/photo/edit/{id} (id=*{id})}">Edit</a>
+			<a th:href="@{/photo/delete/{id} (id=*{id})}">Delete</a>
+		</div>
+	</body>
+</html>
