@@ -1,31 +1,26 @@
-package org.java.fotoalbum.pojo;
-
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+package org.java.fotoalbum.auth.pojo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Category {
+public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@NotNull
+	@NotBlank
 	private String name;
 	
-	public Category() { }
-	public Category(String name) {
+	public Role() { }
+	public Role(String name) {
 		setName(name);
 	}
-	
-	@ManyToMany(mappedBy = "categories")
-	@JsonBackReference
-	public List<Photo> photos;
 	
 	public int getId() {
 		return id;
@@ -45,6 +40,6 @@ public class Category {
 	
 	@Override
 	public String toString() {
-		return "[" + getId() + "]" + "Category " + getName();
+		return "[" + getId() + "] " + getName();
 	}
 }

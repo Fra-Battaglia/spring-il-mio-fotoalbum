@@ -22,6 +22,11 @@ public class PhotoService {
 		return photoRepo.findById(id);
 	}
 	
+	public List<Photo> findByTitle(String title) {
+		
+		return photoRepo.findByTitleContaining(title);
+	}
+	
 	public Photo save(Photo photo) {
 		return photoRepo.save(photo);
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PhotoController {
@@ -35,21 +36,30 @@ public class PhotoController {
 	}
 	
 	// Create
-	@GetMapping("photo/new")
+	@GetMapping("/admin/photo/new")
 	public String createNewPhoto(Model model) {
 		return "new-photo";
 	}
 	
-	@PostMapping("/photo/new")
-	public String storeNewPizza(@ModelAttribute Photo photo) {
+	@PostMapping("/admin/photo/new")
+	public String storeNewPhoto(@ModelAttribute Photo photo) {
 		photoService.save(photo);
 		
 		return "redirect:/";
 	}
 	
+	@PostMapping("/photo/search")
+	public String searchPhoto(Model model, @RequestParam(required = false) String title) {
+		List<Photo> photos = photoService.findByTitle(title);
+		model.addAttribute("title", title);
+		model.addAttribute("photos", photos);
+		
+		return "index";
+	}
+	
 	// Show
 	@GetMapping("/photo/{id}")
-	public String getPizza(
+	public String getPhoto(
 		Model model,
 		@PathVariable("id") int id
 	) {
@@ -65,7 +75,7 @@ public class PhotoController {
 	}
 	
 	// Update
-	@GetMapping("/photo/edit/{id}")
+	@GetMapping("/admin/photo/edit/{id}")
 	public String editPhoto(
 				Model model,
 				@PathVariable("id") int id
@@ -81,30 +91,39 @@ public class PhotoController {
 		return "edit-photo";
 	}
 	
-	// Delete
+	@PostMapping("/admin/photo/edit/{id}")
+	public String updatePhoto(
+			@PathVariable("id") int id,
+			@ModelAttribute Photo photo
+		) {
+		photoService.save(photo);
+		
+		return "redirect:/";
+	}
 	
-		@GetMapping("/photo/delete/{id}")
-		public String deletePhoto(
-				@PathVariable int id
-			) {
-			
-			Optional<Photo> photoOpt = photoService.findById(id);
-			Photo photo = photoOpt.get();
-			photoService.deletePhoto(photo);
-			
-			return "redirect:/";
-		}
-		@GetMapping("/photo/soft-delete/{id}")
-		public String softDeleteBook(
-				@PathVariable int id
-			) {
-			
-			Optional<Photo> photoOpt = photoService.findById(id);
-			Photo photo = photoOpt.get();
-			
-			photo.setDeleted(true);
-			photoService.save(photo);
-			
-			return "redirect:/";
-		}
+	// Delete
+	@GetMapping("/admin/photo/delete/{id}")
+	public String deletePhoto(
+			@PathVariable int id
+		) {
+		
+		Optional<Photo> photoOpt = photoService.findById(id);
+		Photo photo = photoOpt.get();
+		photoService.deletePhoto(photo);
+		
+		return "redirect:/";
+	}
+	@GetMapping("/admin/photo/soft-delete/{id}")
+	public String softDeleteBook(
+			@PathVariable int id
+		) {
+		
+		Optional<Photo> photoOpt = photoService.findById(id);
+		Photo photo = photoOpt.get();
+		
+		photo.setDeleted(true);
+		photoService.save(photo);
+		
+		return "redirect:/";
+	}
 }
